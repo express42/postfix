@@ -1,0 +1,3 @@
+<% @keys.sort.each do | key, val | -%>
+<%= "#{key} #{val['domain']}:#{val['selector']}:/etc/opendkim/keys/#{val['domain']}-#{val['selector']}.key" %>
+<% end -%>
