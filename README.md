@@ -1,6 +1,6 @@
 # Description
 
-Installs and configures postfix servers
+Installs and configures postfix and DKIM. Provides LWRPs for managing multiple instances
 
 # Requirements
 
@@ -50,8 +50,8 @@ Installs and configures postfix servers
 
 # Recipes
 
-* postfix::default-server
 * postfix::default
+* postfix::default_server
 
 # Resources
 
