@@ -25,4 +25,4 @@
 # SOFTWARE.
 #
 
-postfix "default"
+postfix 'default'
