@@ -6,7 +6,6 @@ Installs and configures postfix and DKIM. Provides LWRPs for managing multiple i
 
 ## Platform:
 
-* Debian
 * Ubuntu
 
 ## Cookbooks:
@@ -50,8 +49,8 @@ Installs and configures postfix and DKIM. Provides LWRPs for managing multiple i
 
 # Recipes
 
-* postfix::default
-* postfix::default_server
+* postfix::default - Do nothing
+* postfix::default_server - Installs and configures default postfix instance
 
 # Resources
 

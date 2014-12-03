@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: postfix
-# Recipe:: default-server
+# Recipe:: default_server
 #
 # Author:: LLC Express 42 (info@express42.com)
 #

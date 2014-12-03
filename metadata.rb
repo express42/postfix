@@ -5,5 +5,7 @@ license           'MIT'
 description       'Installs and configures postfix and DKIM. Provides LWRPs for managing multiple instances'
 version           '0.1.1'
 
-supports          'debian'
+recipe            'postfix::default', 'Do nothing'
+recipe            'postfix::default_server', 'Installs and configures default postfix instance'
+
 supports          'ubuntu'
