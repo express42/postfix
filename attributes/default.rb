@@ -1,5 +1,5 @@
-default['postfix']['options']['myhostname'] = fqdn
-default['postfix']['options']['mydomain']   = domain
+default['postfix']['options']['myhostname'] = node['fqdn']
+default['postfix']['options']['mydomain']   = node['domain']
 default['postfix']['options']['myorigin']   = '$myhostname'
 default['postfix']['options']['mydestination'] = "#{fqdn}, #{node['hostname']}, localhost.localdomain, localhost"
 default['postfix']['options']['mynetworks'] = '127.0.0.0/8'

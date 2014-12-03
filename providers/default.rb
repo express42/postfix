@@ -25,6 +25,8 @@
 # SOFTWARE.
 #
 
+use_inline_resources
+
 action :create do
 
   package 'postfix'
@@ -33,8 +35,8 @@ action :create do
   run_context.resource_collection.all_resources.map { |resource| instances_list << resource.name if resource.resource_name == :postfix }
   instances_list.sort!
 
-  options = Chef::Mixin::DeepMerge.merge(node.postfix.options.to_hash, new_resource.options)
-  master_options = Chef::Mixin::DeepMerge.merge(node.postfix.master_options.to_hash, new_resource.master_options)
+  options = Chef::Mixin::DeepMerge.merge(node['postfix']['options'], new_resource.options)
+  master_options = Chef::Mixin::DeepMerge.merge(node['postfix']['master_options'], new_resource.master_options)
 
   if instances_list.first == new_resource.name
 
@@ -82,26 +84,25 @@ action :create do
     source 'main.cf.erb'
     owner 'root'
     group 'root'
-    mode 0644
+    mode '0644'
     cookbook new_resource.cookbook
     variables(options: options)
-    notifies :restart, resources(service: "postfix#{instance_prefix}"), :delayed
+    notifies :restart, "service[postfix#{instance_prefix}]", :delayed
   end
 
   master_config = template "/etc/postfix#{instance_prefix}/master.cf" do
     source 'master.cf.erb'
     owner 'root'
     group 'root'
-    mode 0644
+    mode '0644'
     cookbook new_resource.cookbook
     variables(master_options: master_options)
-    notifies :restart, resources(service: "postfix#{instance_prefix}"), :delayed
+    notifies :restart, "service[postfix#{instance_prefix}]", :delayed
   end
 
-  unless instance_prefix.empty?
-    link "/etc/postfix#{instance_prefix}/dynamicmaps.cf" do
-      to '/etc/postfix/dynamicmaps.cf'
-    end
+  link "/etc/postfix#{instance_prefix}/dynamicmaps.cf" do
+    to '/etc/postfix/dynamicmaps.cf'
+    not_if instance_prefix.empty?
   end
 
   execute "postfix -c /etc/postfix#{instance_prefix} check" do

@@ -14,8 +14,8 @@ Installs and configures postfix and DKIM. Provides LWRPs for managing multiple i
 
 # Attributes
 
-* `node['postfix']['options']['myhostname']` -  Defaults to `"fqdn"`.
-* `node['postfix']['options']['mydomain']` -  Defaults to `"domain"`.
+* `node['postfix']['options']['myhostname']` -  Defaults to `"node['fqdn']"`.
+* `node['postfix']['options']['mydomain']` -  Defaults to `"node['domain']"`.
 * `node['postfix']['options']['myorigin']` -  Defaults to `"$myhostname"`.
 * `node['postfix']['options']['mydestination']` -  Defaults to `"\#{fqdn}, \#{node['hostname']}, localhost.localdomain, localhost"`.
 * `node['postfix']['options']['mynetworks']` -  Defaults to `"127.0.0.0/8"`.
