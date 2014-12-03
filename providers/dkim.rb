@@ -25,8 +25,6 @@
 # SOFTWARE.
 #
 
-use_inline_resources
-
 action :setup do
 
   package 'opendkim'
@@ -73,7 +71,7 @@ action :setup do
     cookbook new_resource.cookbook
     variables(internalhosts: new_resource.internalhosts)
     notifies :restart, 'service[opendkim]', :delayed
-    only_if new_resource.internalhosts
+    only_if { new_resource.internalhosts }
   end
 
   template configuration['keytable'] do
@@ -82,7 +80,7 @@ action :setup do
     cookbook new_resource.cookbook
     variables(keys: new_resource.keys)
     notifies :restart, 'service[opendkim]', :delayed
-    only_if new_resource.keys
+    only_if { new_resource.keys }
   end
 
   template configuration['signingtable'] do
@@ -91,7 +89,9 @@ action :setup do
     cookbook new_resource.cookbook
     variables(signers: new_resource.signers)
     notifies :restart, 'service[opendkim]', :delayed
-    only_if new_resource.signers
+    only_if { new_resource.signers }
   end
+
+  new_resource.updated_by_last_action(true)
 
 end

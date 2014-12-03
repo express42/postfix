@@ -25,8 +25,6 @@
 # SOFTWARE.
 #
 
-use_inline_resources
-
 action :create do
 
   package 'postfix'
@@ -71,16 +69,20 @@ action :create do
     supports status: true, restart: true, reload: true
   end
 
-  spool_directory = directory "/var/spool/postfix#{instance_prefix}"
+  # spool directory
+  directory "/var/spool/postfix#{instance_prefix}"
 
-  config_directory = directory "/etc/postfix#{instance_prefix}"
+  # config directory
+  directory "/etc/postfix#{instance_prefix}"
 
-  cache_directory = directory "/var/spool/postfix#{instance_prefix}/cache" do
+  # cache directory
+  directory "/var/spool/postfix#{instance_prefix}/cache" do
     owner 'postfix'
     group 'root'
   end
 
-  main_config = template "/etc/postfix#{instance_prefix}/main.cf" do
+  # main config
+  template "/etc/postfix#{instance_prefix}/main.cf" do
     source 'main.cf.erb'
     owner 'root'
     group 'root'
@@ -90,7 +92,8 @@ action :create do
     notifies :restart, "service[postfix#{instance_prefix}]", :delayed
   end
 
-  master_config = template "/etc/postfix#{instance_prefix}/master.cf" do
+  # master config
+  template "/etc/postfix#{instance_prefix}/master.cf" do
     source 'master.cf.erb'
     owner 'root'
     group 'root'
@@ -102,11 +105,13 @@ action :create do
 
   link "/etc/postfix#{instance_prefix}/dynamicmaps.cf" do
     to '/etc/postfix/dynamicmaps.cf'
-    not_if instance_prefix.empty?
+    not_if { instance_prefix.empty? }
   end
 
   execute "postfix -c /etc/postfix#{instance_prefix} check" do
     creates "/var/spool/postfix#{instance_prefix}/active"
   end
+
+  new_resource.updated_by_last_action(true)
 
 end
