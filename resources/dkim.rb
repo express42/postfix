@@ -32,9 +32,9 @@ end
 
 actions   :setup
 
-attribute :name, :kind_of => String, :name_attribute => true
-attribute :cookbook, :kind_of => String, :default => "postfix"
-attribute :configuration, :kind_of => Hash, :default => {}
-attribute :keys, :kind_of => Hash, :default => nil
-attribute :signers, :kind_of => Hash, :default => nil
-attribute :internalhosts, :kind_of => Array, :default => nil
+attribute :name, kind_of: String, name_attribute: true
+attribute :cookbook, kind_of: String, default: 'postfix'
+attribute :configuration, kind_of: Hash, default: {}
+attribute :keys, kind_of: Hash, default: nil
+attribute :signers, kind_of: Hash, default: nil
+attribute :internalhosts, kind_of: Array, default: nil

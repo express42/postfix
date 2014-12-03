@@ -27,70 +27,70 @@
 
 action :setup do
 
-  package "opendkim"
+  package 'opendkim'
 
-  service "opendkim" do
-    action [ :enable, :start ]
-  end 
+  service 'opendkim' do
+    action [:enable, :start]
+  end
 
   configuration = Chef::Mixin::DeepMerge.merge(node.postfix.dkim.to_hash, new_resource.configuration)
 
-  directory "/etc/opendkim"
-  directory "/etc/opendkim/keys" do
-    owner node["postfix"]["dkim"]["user"]
-    group node["postfix"]["dkim"]["user"]
+  directory '/etc/opendkim'
+  directory '/etc/opendkim/keys' do
+    owner node['postfix']['dkim']['user']
+    group node['postfix']['dkim']['user']
     mode 0500
   end
 
-  template "/etc/opendkim.conf" do
-    source "opendkim.conf.erb"
+  template '/etc/opendkim.conf' do
+    source 'opendkim.conf.erb'
     mode 0644
     cookbook new_resource.cookbook
-    variables( :options => configuration["options"] )
-    notifies :restart, resources(:service => "opendkim")
-  end 
+    variables(options: configuration['options'])
+    notifies :restart, resources(service: 'opendkim')
+  end
 
   if new_resource.keys
-    new_resource.keys.each do |key, val|
+    new_resource.keys.each do |_key, val|
       template "/etc/opendkim/keys/#{val['domain']}-#{val['selector']}.key" do
-        source "keys.erb"
-        owner node["postfix"]["dkim"]["user"]
-        group node["postfix"]["dkim"]["user"]
+        source 'keys.erb'
+        owner node['postfix']['dkim']['user']
+        group node['postfix']['dkim']['user']
         mode 0400
         cookbook new_resource.cookbook
-        variables( :key => val['key'] )
-        notifies :restart, resources(:service => "opendkim")
+        variables(key: val['key'])
+        notifies :restart, resources(service: 'opendkim')
       end
     end
   end
 
   if new_resource.internalhosts
     template configuration['internalhosts'] do
-      source "internalhosts.erb"
+      source 'internalhosts.erb'
       mode 0644
       cookbook new_resource.cookbook
-      variables( :internalhosts => new_resource.internalhosts )
-      notifies :restart, resources(:service => "opendkim")
+      variables(internalhosts: new_resource.internalhosts)
+      notifies :restart, resources(service: 'opendkim')
     end
   end
 
   if new_resource.keys
     template configuration['keytable'] do
-      source "keytable.erb"
+      source 'keytable.erb'
       mode 0644
       cookbook new_resource.cookbook
-      variables( :keys => new_resource.keys )
-      notifies :restart, resources(:service => "opendkim")
+      variables(keys: new_resource.keys)
+      notifies :restart, resources(service: 'opendkim')
     end
   end
 
   if new_resource.signers
     template configuration['signingtable'] do
-      source "signingtable.erb"
+      source 'signingtable.erb'
       mode 0644
       cookbook new_resource.cookbook
-      variables( :signers => new_resource.signers )
-      notifies :restart, resources(:service => "opendkim")
+      variables(signers: new_resource.signers)
+      notifies :restart, resources(service: 'opendkim')
     end
   end
 

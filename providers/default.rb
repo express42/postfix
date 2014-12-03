@@ -27,7 +27,7 @@
 
 action :create do
 
-  package "postfix"
+  package 'postfix'
 
   instances_list = []
   run_context.resource_collection.all_resources.map { |resource| instances_list << resource.name if resource.resource_name == :postfix }
@@ -38,12 +38,12 @@ action :create do
 
   if instances_list.first == new_resource.name
 
-    instance_prefix = ""
-    instance = "-"
+    instance_prefix = ''
+    instance = '-'
 
     unless instances_list.count == 1
-      options[:multi_instance_directories] = instances_list.map { |instance| "/etc/postfix-#{instance}" unless instance == new_resource.name }.compact.join(" ")
-      options[:multi_instance_enable] = "yes"
+      options[:multi_instance_directories] = instances_list.map { |instance| "/etc/postfix-#{instance}" unless instance == new_resource.name }.compact.join(' ')
+      options[:multi_instance_enable] = 'yes'
     end
 
   else
@@ -51,7 +51,7 @@ action :create do
     instance_prefix = "-#{new_resource.name}"
     instance = "postfix#{instance_prefix}"
 
-    options[:multi_instance_enable] = "yes"
+    options[:multi_instance_enable] = 'yes'
     options[:multi_instance_name] = "postfix#{instance_prefix}"
 
   end
@@ -66,7 +66,7 @@ action :create do
     restart_command "postmulti -i #{instance} -p stop && postmulti -i #{instance} -p start"
     reload_command "postmulti -i #{instance} -p reload"
     status_command "postmulti -i #{instance} -p status"
-    supports :status => true, :restart => true, :reload => true
+    supports status: true, restart: true, reload: true
   end
 
   spool_directory = directory "/var/spool/postfix#{instance_prefix}"
@@ -74,33 +74,33 @@ action :create do
   config_directory = directory "/etc/postfix#{instance_prefix}"
 
   cache_directory = directory "/var/spool/postfix#{instance_prefix}/cache" do
-    owner "postfix"
-    group "root"
+    owner 'postfix'
+    group 'root'
   end
 
   main_config = template "/etc/postfix#{instance_prefix}/main.cf" do
-    source "main.cf.erb"
-    owner "root"
-    group "root"
+    source 'main.cf.erb'
+    owner 'root'
+    group 'root'
     mode 0644
     cookbook new_resource.cookbook
-    variables( :options => options )
-    notifies :restart, resources(:service => "postfix#{instance_prefix}"), :delayed
+    variables(options: options)
+    notifies :restart, resources(service: "postfix#{instance_prefix}"), :delayed
   end
 
   master_config = template "/etc/postfix#{instance_prefix}/master.cf" do
-    source "master.cf.erb"
-    owner "root"
-    group "root"
+    source 'master.cf.erb'
+    owner 'root'
+    group 'root'
     mode 0644
     cookbook new_resource.cookbook
-    variables( :master_options => master_options )
-    notifies :restart, resources(:service => "postfix#{instance_prefix}"), :delayed
+    variables(master_options: master_options)
+    notifies :restart, resources(service: "postfix#{instance_prefix}"), :delayed
   end
-  
+
   unless instance_prefix.empty?
     link "/etc/postfix#{instance_prefix}/dynamicmaps.cf" do
-     to "/etc/postfix/dynamicmaps.cf"
+      to '/etc/postfix/dynamicmaps.cf'
     end
   end
 
