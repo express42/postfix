@@ -1,16 +1,12 @@
 # Description
 
-Installs and configures postfix and DKIM. Provides LWRPs for managing multiple instances
+Installs and configures postfix and DKIM. Provides LWRPs for managing multiple instances.
 
 # Requirements
 
 ## Platform:
 
 * Ubuntu
-
-## Cookbooks:
-
-*No dependencies defined*
 
 # Attributes
 
@@ -49,8 +45,8 @@ Installs and configures postfix and DKIM. Provides LWRPs for managing multiple i
 
 # Recipes
 
-* postfix::default - Do nothing
-* postfix::default_server - Installs and configures default postfix instance
+* postfix::default - Do nothing.
+* postfix::default_server - Installs and configures default postfix instance.
 
 # Resources
 
@@ -61,7 +57,7 @@ Installs and configures postfix and DKIM. Provides LWRPs for managing multiple i
 
 ### Actions
 
-- create:
+- create:  Default action.
 
 ### Attribute Parameters
 
@@ -74,19 +70,24 @@ Installs and configures postfix and DKIM. Provides LWRPs for managing multiple i
 
 ### Actions
 
-- setup:
+- setup:  Default action.
 
 ### Attribute Parameters
 
 - name:
 - cookbook:  Defaults to <code>"postfix"</code>.
 - configuration:  Defaults to <code>{}</code>.
-- keys:  Defaults to <code>nil</code>.
-- signers:  Defaults to <code>nil</code>.
-- internalhosts:  Defaults to <code>nil</code>.
+- keys:  Defaults to <code>{}</code>.
+- signers:  Defaults to <code>{}</code>.
+- internalhosts:  Defaults to <code>[]</code>.
+
+# Usage
+
+See fixture cookbook in `tests/fixtures/cookbooks`.
+
 
 # License and Maintainer
 
-Maintainer:: LLC Express 42 (<info@express42.com>)
+Maintainer:: LLC Express 42 (<cookbooks@express42.com>)
 
 License:: MIT
