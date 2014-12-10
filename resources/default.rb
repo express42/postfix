@@ -32,7 +32,9 @@ end
 
 actions   :create
 
-attribute :name, kind_of: String, name_attribute: true
+default_action :create
+
+attribute :name, kind_of: String, name_attribute: true, required: true
 attribute :cookbook, kind_of: String, default: 'postfix'
 attribute :options, kind_of: Hash, default: {}
 attribute :master_options, kind_of: Hash, default: {}
