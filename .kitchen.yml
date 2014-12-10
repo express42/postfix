@@ -16,5 +16,5 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[postfix::default_server]
+      - recipe[postfix_test]
     attributes:
