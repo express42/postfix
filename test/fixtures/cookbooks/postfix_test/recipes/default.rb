@@ -1,4 +1,6 @@
-postfix 'test'
+include_recipe 'apt'
+include_recipe 'postfix::default_server'
+
 postfix_dkim 'test'
 
 postfix 'test1' do
