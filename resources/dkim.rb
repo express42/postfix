@@ -30,7 +30,7 @@ def initialize(*args)
   @action = :setup
 end
 
-actions   :setup
+actions :setup
 
 default_action :setup
 

@@ -26,7 +26,6 @@
 #
 
 action :create do
-
   package 'postfix'
 
   instances_list = []
@@ -113,5 +112,4 @@ action :create do
   end
 
   new_resource.updated_by_last_action(true)
-
 end

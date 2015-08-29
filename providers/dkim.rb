@@ -26,7 +26,6 @@
 #
 
 action :setup do
-
   package 'opendkim'
 
   service 'opendkim' do
@@ -93,5 +92,4 @@ action :setup do
   end
 
   new_resource.updated_by_last_action(true)
-
 end
